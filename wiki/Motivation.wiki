@@ -3,7 +3,7 @@
 
 = The story of XML =
 
-XML is a great tool for sharing structured hierarchical information across different programs. It's quite readable to people, there are many universal editors and libraries for working with this pretty simple and straightforward format.
+XML is a great format for sharing structured hierarchical information across different programs. It's quite readable to people, there are many universal editors and libraries for working with this pretty simple and straightforward format.
 
 However, over the years XML got more and more complicated, things like schemas, namespaces, DOM, SAX, XSLT, XPATH made the pretty simple XML into an ugly format that most developers frown upon. People started looking around for new serialized data formats like JSON, YAML, but XML seems to be too widespread to be easily pushed away.
 
