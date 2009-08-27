@@ -18,8 +18,8 @@ public class XmlBuilderTest {
                 .openTag("thisishow")
                     .withValue("you can build")
                 .closeTag()
-                .openTag("your").withAttribute("xml", "nicely").closeTag()
-            .closeTag().toString();
+                .openTag("your").withAttribute("xml", "nicely")
+            .toString();
         log.debug(xml);
         assertEquals("<xml id=\"1\"><thisishow>you can build</thisishow>" +
         		"<your xml=\"nicely\"/></xml>", xml);

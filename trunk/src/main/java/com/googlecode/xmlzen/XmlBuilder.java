@@ -98,6 +98,7 @@ public class XmlBuilder {
     
     @Override
     public String toString() {
+        closeAllTags();
         return new String(body.toString());
     }
     
