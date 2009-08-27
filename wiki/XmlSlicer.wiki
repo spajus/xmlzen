@@ -1,0 +1,3 @@
+#summary XmlSlicer utilty
+
+Cuts tag and attribute values from XML.
