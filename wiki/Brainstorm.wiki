@@ -40,3 +40,27 @@ XmlSlicer.cut(xmlString)
 
 
 As slicer can slice into a unique tag, to get the value of /tag2/innerTag1/tag3 we have to get deeper two times before tag3 becomes unique.
+
+First cut (tag2) returns:
+{{{
+    <innerTag1>
+      <tag1>4</tag1>
+      <tag2>5</tag2>
+      <tag3>6</tag3>
+    </innerTag1>
+    <innerTag2>
+      <tag1>7</tag1>
+      <tag2>8</tag2>
+      <tag3>9</tag3>
+    </innerTag2>
+}}}
+
+Second cut (innerTag1) returns:
+
+{{{
+      <tag1>4</tag1>
+      <tag2>5</tag2>
+      <tag3>6</tag3>
+}}}
+
+And the last cut (tag2) gets our value - 6. 
