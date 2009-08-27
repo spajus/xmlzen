@@ -29,5 +29,5 @@
 
 {{{
 //gets "6"
-String value = XmlSlicer.cut(xmlString).get("tag2").get("innerTag1").get("tag3");
+String value = XmlSlicer.cut(xmlString).get("tag2").get("innerTag1").get("tag3").toString();
 }}}
