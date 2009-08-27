@@ -64,3 +64,20 @@ Second cut (innerTag1) returns:
 }}}
 
 And the last cut (tag2) gets our value - 6. 
+
+= XmlBuilder. Case 1 =
+Code:
+{{{
+        String xml = XmlBuilder.newXml()
+            .openTag("xml")
+                .withAttribute("id", 1)
+                .openTag("thisishow")
+                    .withValue("you can build")
+                .closeTag()
+                .openTag("your").withAttribute("xml", "nicely").closeTag()
+            .closeTag().toString();
+}}}
+XML:
+{{{
+<xml id="1"><thisishow>you can build</thisishow><your xml="nicely"/></xml>
+}}}
