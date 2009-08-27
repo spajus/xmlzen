@@ -75,7 +75,12 @@ String xml = XmlBuilder.newXml()
         .closeTag()
         .openTag("your").withAttribute("xml", "nicely").toString();
 }}}
-XML:
+XML (formatted):
 {{{
-<xml id="1"><thisishow>you can build</thisishow><your xml="nicely"/></xml>
+<xml id="1">
+  <thisishow>
+    you can build
+  </thisishow>
+  <your xml="nicely"/>
+</xml>
 }}}
