@@ -2,7 +2,7 @@
 #labels Featured
 
 = Case 1 =
-
+XML
 {{{
 <xml>
   <tag1>
@@ -26,8 +26,17 @@
   </tag2>
 </xml>
 }}}
-
+Code
 {{{
 //gets "6"
 String value = XmlSlicer.cut(xmlString).get("tag2").get("innerTag1").get("tag3").toString();
 }}}
+Explanation
+
+The following code creates a new thread-safe instance of XmlSlicer for input String (xmlString).
+{{{
+XmlSlicer.cut(xmlString)
+}}}
+
+
+As slicer can slice into a unique tag, to get the value of /tag2/innerTag1/tag3 we have to get deeper two times before tag3 becomes unique.
