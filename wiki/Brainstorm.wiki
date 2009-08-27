@@ -1,7 +1,7 @@
 #summary Project brainstorm
 #labels Featured
 
-= Case 1 =
+= XmlSlicer. Case 1 =
 XML
 {{{
 <xml>
