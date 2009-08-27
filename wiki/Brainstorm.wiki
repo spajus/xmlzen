@@ -43,24 +43,24 @@ As slicer can slice into a unique tag, to get the value of /tagB/innerTag1/tag3 
 
 First cut (tag2) returns:
 {{{
-    <innerTag1>
-      <tag1>4</tag1>
-      <tag2>5</tag2>
-      <tag3>6</tag3>
-    </innerTag1>
-    <innerTag2>
-      <tag1>7</tag1>
-      <tag2>8</tag2>
-      <tag3>9</tag3>
-    </innerTag2>
+<innerTag1>
+  <tag1>4</tag1>
+  <tag2>5</tag2>
+  <tag3>6</tag3>
+</innerTag1>
+<innerTag2>
+  <tag1>7</tag1>
+  <tag2>8</tag2>
+  <tag3>9</tag3>
+</innerTag2>
 }}}
 
 Second cut (innerTag1) returns:
 
 {{{
-      <tag1>4</tag1>
-      <tag2>5</tag2>
-      <tag3>6</tag3>
+<tag1>4</tag1>
+<tag2>5</tag2>
+<tag3>6</tag3>
 }}}
 
 And the last cut (tag2) gets our value - 6. 
@@ -68,13 +68,12 @@ And the last cut (tag2) gets our value - 6.
 = XmlBuilder. Case 1 =
 Code:
 {{{
-        String xml = XmlBuilder.newXml()
-            .openTag("xml")
-                .withAttribute("id", 1)
-                .openTag("thisishow")
-                    .withValue("you can build")
-                .closeTag()
-                .openTag("your").withAttribute("xml", "nicely").toString();
+String xml = XmlBuilder.newXml()
+    .openTag("xml").withAttribute("id", 1)
+        .openTag("thisishow")
+            .withValue("you can build")
+        .closeTag()
+        .openTag("your").withAttribute("xml", "nicely").toString();
 }}}
 XML:
 {{{
