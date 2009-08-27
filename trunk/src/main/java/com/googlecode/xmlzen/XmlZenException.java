@@ -1,4 +1,4 @@
-package com.googlecode.xmlzen.utils;
+package com.googlecode.xmlzen;
 
 public class XmlZenException extends RuntimeException {
 

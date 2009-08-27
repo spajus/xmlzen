@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
+import com.googlecode.xmlzen.XmlZenException;
+
 public abstract class XmlUtils {
 
 	/**
