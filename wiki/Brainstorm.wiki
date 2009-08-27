@@ -1,0 +1,33 @@
+#summary Project brainstorm
+#labels Featured
+
+= Case 1 =
+
+{{{
+<xml>
+  <tag1>
+    <innerTag1>
+      <tag1>1</tag1>
+      <tag2>2</tag2>
+      <tag3>3</tag3>
+    </innerTag1>
+  </tag1>
+  <tag2>
+    <innerTag1>
+      <tag1>4</tag1>
+      <tag2>5</tag2>
+      <tag3>6</tag3>
+    </innerTag1>
+    <innerTag2>
+      <tag1>7</tag1>
+      <tag2>8</tag2>
+      <tag3>9</tag3>
+    </innerTag2>
+  </tag2>
+</xml>
+}}}
+
+{{{
+//gets "6"
+String value = XmlSlicer.cut(xmlString).get("tag2").get("innerTag1").get("tag3");
+}}}
