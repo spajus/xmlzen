@@ -58,4 +58,53 @@ public abstract class XmlUtils {
 			return Charset.defaultCharset().name();
 		}
 	}
+	
+    public static String getTagValue(String xml, String tag) {
+        String tagStart = "<".concat(tag);
+        String tagEnd = "</".concat(tag).concat(">");
+        int start = xml.indexOf(tagStart);
+        char next = xml.charAt(start + tagStart.length());
+        if (next == '/') return null;
+        while (next != '>' && next != ' ') {
+            start = xml.indexOf(tagStart, start + tagStart.length());
+            next = xml.charAt(start + tagStart.length());
+        }
+        start = xml.indexOf('>', start) + 1;
+        int end = xml.indexOf(tagEnd, start);
+        if (end == -1) {
+            return null;
+        }
+        String result = xml.substring(start, end).trim();
+        int newStart = result.indexOf(tagStart); 
+        while (newStart != -1) {
+            end = xml.indexOf(tagEnd, end + tagEnd.length());
+            result = xml.substring(start, end).trim();
+            newStart = result.indexOf(tagStart, newStart+tagStart.length());
+        } 
+        return result;
+    }
+    
+    public static String getAttribute(String inputXml, String tag, String attribute) {
+        String tagStart = "<".concat(tag).concat(" ");
+        int start = inputXml.indexOf(tagStart) + tagStart.length();
+        int end = inputXml.indexOf('>', start);
+        String attributes = inputXml.substring(start, end);
+        start = (" ".concat(attributes)).indexOf(" ".concat(attribute).concat("="));
+        if (start == -1) {
+            return null;
+        }
+        start += attribute.length() + 1;
+        char quote = attributes.charAt(start);
+        start++;
+        end = attributes.indexOf(quote, start);
+        return attributes.substring(start, end);
+    }
+    
+    public static long getLongAttribute(String inputXml, String tag, String attribute) {
+        return Long.parseLong(getAttribute(inputXml, tag, attribute));
+    }
+
+    public static int getIntAttribute(String inputXml, String tag, String attribute) {
+        return Integer.parseInt(getAttribute(inputXml, tag, attribute));
+    }
 }
