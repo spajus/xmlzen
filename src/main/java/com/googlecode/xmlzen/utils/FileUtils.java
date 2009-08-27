@@ -12,6 +12,8 @@ import java.nio.charset.Charset;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.googlecode.xmlzen.XmlZenException;
+
 public abstract class FileUtils {
 
 	private static final Log log = LogFactory.getLog(FileUtils.class);
