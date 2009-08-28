@@ -1,5 +1,4 @@
 #summary Project brainstorm
-#labels Featured
 
 = XmlSlicer. Case 1 =
 XML
