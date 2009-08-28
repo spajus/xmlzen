@@ -17,4 +17,4 @@ Java is currently one of the most used server side programming languages, and ca
 
 = Less is More =
 
-In many cases you will only need basic features for processing XML files, and in such cases there is no need to choke on huge APIs. By using bloatware you create new bloatware. Find the inspiration in minimalism, try XML Zen. 
+In many cases you will only need basic features for processing XML files, and in such cases there is no need to choke on huge APIs and implementations that support all the gore displayed above. By using bloatware you create new bloatware. Find the inspiration in minimalism, try XML Zen. 
