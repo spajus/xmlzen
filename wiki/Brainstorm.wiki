@@ -83,3 +83,18 @@ XML (formatted):
   <your xml="nicely"/>
 </xml>
 }}}
+
+= XmlSlicer. Case 2 =
+XML:
+{{{
+<nest>
+  <bird>crow</bird>
+  <bird>tweety</bird>
+  <bird>chicken</bird>
+</nest> 
+}}}
+Code:
+{{{
+//Should be a list of "crow", "tweety" and "chicken"
+List<String> birds = XmlSlicer.cut(xmlString).getAll("bird");
+}}}
