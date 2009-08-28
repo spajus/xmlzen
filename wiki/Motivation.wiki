@@ -10,3 +10,7 @@ However, over the years XML got more and more complicated, things like schemas, 
 = XML and Java =
 
 Java is currently one of the most used server side programming languages, and casual java development usually involves lot's of XML processing. There are huge APIs with solid implementations that have been there for decades, and yet, all these implementations are still causing problems. What is the API good for, if things that run on one implementation usually does not work with another? Why can a switch from Java 5 to Java 6 break XML parsers and processors? It should be different.
+
+= Where XML is now =
+
+[http://lh4.ggpht.com/_nP8Aa6cTHpo/Spdg41mFFPI/AAAAAAAACUQ/NkchfZ_RWz0/s800/xml.gif]
