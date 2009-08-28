@@ -96,5 +96,5 @@ XML:
 Code:
 {{{
 //Should be a list of "crow", "tweety" and "chicken"
-List<String> birds = XmlSlicer.cut(xmlString).getAll("bird");
+List<String> birds = XmlSlicer.cut(xmlString).getAll("bird").asList();
 }}}
