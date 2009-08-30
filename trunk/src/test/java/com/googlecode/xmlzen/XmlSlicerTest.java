@@ -29,7 +29,7 @@ public class XmlSlicerTest {
     public void testGetAll() throws Exception {
         String xml = FileUtils.readFile(
                 FileUtils.getClassPathFile("xmls/birds.xml"));
-        List<XmlSlicer> birds = XmlSlicer.cut(xml).getAll("bird");
+        List<String> birds = XmlSlicer.cut(xml).getAll("bird").asList();
         log.debug(xml);
         log.debug(birds);
     }
