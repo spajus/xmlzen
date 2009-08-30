@@ -77,12 +77,27 @@ public abstract class XmlUtils {
 		}
 	}
 	
-    public static String getTagValue(String xml, String tag) {
+	public static String getTagValue(String xml, String tag) {
+	    return getTagValue(xml, tag, null, null);
+	}
+	
+    public static String getTagValue(String xml, String tag, 
+            Value<Integer> startOffset, 
+            Value<Integer> endOffset) {
         String tagStart = "<".concat(tag);
         String tagEnd = "</".concat(tag).concat(">");
-        int start = xml.indexOf(tagStart);
+        int start = xml.indexOf(tagStart, getValue(startOffset, 0));
+        if (start == -1) {
+            setValue(endOffset, -1);
+            return null;
+        }
         char next = xml.charAt(start + tagStart.length());
-        if (next == '/') return null;
+        if (next == '/') {
+            //offset of />
+            setValue(startOffset, start);
+            setValue(endOffset, start + tagStart.length() + 1);
+            return null;
+        }
         while (next != '>' && next != ' ') {
             start = xml.indexOf(tagStart, start + tagStart.length());
             next = xml.charAt(start + tagStart.length());
@@ -90,6 +105,8 @@ public abstract class XmlUtils {
         start = xml.indexOf('>', start) + 1;
         int end = xml.indexOf(tagEnd, start);
         if (end == -1) {
+            setValue(startOffset, -1);
+            setValue(endOffset, -1);
             return null;
         }
         String result = xml.substring(start, end).trim();
@@ -99,7 +116,23 @@ public abstract class XmlUtils {
             result = xml.substring(start, end).trim();
             newStart = result.indexOf(tagStart, newStart+tagStart.length());
         } 
+        setValue(startOffset, start - tagStart.length() - 1);
+        setValue(endOffset, end + tagEnd.length());
         return result;
+    }
+    
+    private static int getValue(Value<Integer> source, int ifNull) {
+        if (source == null) {
+            return ifNull;
+        } else {
+            return source.getValue();
+        }
+    }
+    
+    private static void setValue(Value<Integer> target, Integer value) {
+        if (target != null) {
+            target.setValue(value);
+        }
     }
     
     public static String getAttribute(String inputXml, String tag, String attribute) {
