@@ -31,7 +31,11 @@ public class XmlUtilsTest {
 
     @Test
     public void testGetTagValue() throws Exception {
-        String b = XmlUtils.getTagValue("<a>b</a>", "a");
+        Value<Integer> start = new Value<Integer>(0);
+        Value<Integer> offset = new Value<Integer>();
+        String b = XmlUtils.getTagValue("<a>b</a>", "a", start, offset);
+        log.debug("Start: " + start);
+        log.debug("End: " + offset);
         assertEquals("b", b);
         String c = XmlUtils.getTagValue("<a b=\"z\">\nc\n</a>\n", "a");
         assertEquals("c", c);

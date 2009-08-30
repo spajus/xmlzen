@@ -16,6 +16,10 @@
  */
 package com.googlecode.xmlzen;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.googlecode.xmlzen.utils.Value;
 import com.googlecode.xmlzen.utils.XmlUtils;
 
 public class XmlSlicer {
@@ -33,12 +37,27 @@ public class XmlSlicer {
     public XmlSlicer get(final String tag) {
         return new XmlSlicer(XmlUtils.getTagValue(xml, tag));
     }
+
+    public List<XmlSlicer> getAll(final String tag) {
+        final Value<Integer> startOffset = new Value<Integer>(0);
+        final Value<Integer> lastOffset = new Value<Integer>(0);
+        final List<XmlSlicer> results = new ArrayList<XmlSlicer>();
+        while (lastOffset.getValue() != -1) {
+            String chunk = XmlUtils.getTagValue(xml, tag, 
+                    startOffset, lastOffset);
+            System.out.println("Start: " + startOffset);
+            System.out.println("End: " + lastOffset);
+            startOffset.setValue(lastOffset.getValue());
+            if (lastOffset.getValue() != -1) {
+                results.add(new XmlSlicer(chunk));
+            }
+        }
+        return results;
+    }
     
     public String getAttribute(String tag, String attribute) {
         return XmlUtils.getAttribute(xml, tag, attribute);
     }
-    
-
     
     @Override
     public String toString() {
