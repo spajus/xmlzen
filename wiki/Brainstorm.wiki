@@ -95,6 +95,8 @@ XML:
 }}}
 Code:
 {{{
-//Should be a list of "crow", "tweety" and "chicken"
-List<String> birds = XmlSlicer.cut(xmlString).getAll("bird").asList();
+//Should print "crow", "tweety" and "chicken"
+for (XmlSlicer bird : XmlSlicer.cut(xmlString).getAll("bird")) {
+   System.out.println(bird.toString());
+}
 }}}
