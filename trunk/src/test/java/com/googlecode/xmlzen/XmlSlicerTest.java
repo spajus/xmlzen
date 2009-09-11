@@ -32,6 +32,9 @@ public class XmlSlicerTest {
         List<String> birds = XmlSlicer.cut(xml).getAll("bird").asList();
         log.debug(xml);
         log.debug(birds);
+        for (XmlSlicer bird : XmlSlicer.cut(xml).getAll("bird")) {
+            log.debug(bird);
+        }
     }
     
 }
