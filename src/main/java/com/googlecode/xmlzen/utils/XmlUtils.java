@@ -78,12 +78,12 @@ public abstract class XmlUtils {
 	}
 	
 	public static String getTagValue(String xml, String tag) {
-	    return getTagValue(xml, tag, null, null);
+	    return getTagValue(xml, tag, null, null, true);
 	}
 	
     public static String getTagValue(String xml, String tag, 
             Value<Integer> startOffset, 
-            Value<Integer> endOffset) {
+            Value<Integer> endOffset, boolean valueOnly) {
         String tagStart = "<".concat(tag);
         String tagEnd = "</".concat(tag).concat(">");
         int start = xml.indexOf(tagStart, getValue(startOffset, 0));
@@ -102,6 +102,8 @@ public abstract class XmlUtils {
             start = xml.indexOf(tagStart, start + tagStart.length());
             next = xml.charAt(start + tagStart.length());
         }
+        //FIXME ended here
+        int fullStart = start;
         start = xml.indexOf('>', start) + 1;
         int end = xml.indexOf(tagEnd, start);
         if (end == -1) {

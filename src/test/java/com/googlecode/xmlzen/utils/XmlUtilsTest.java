@@ -33,7 +33,7 @@ public class XmlUtilsTest {
     public void testGetTagValue() throws Exception {
         Value<Integer> start = new Value<Integer>(0);
         Value<Integer> offset = new Value<Integer>();
-        String b = XmlUtils.getTagValue("<a>b</a>", "a", start, offset);
+        String b = XmlUtils.getTagValue("<a>b</a>", "a", start, offset, true);
         log.debug("Start: " + start);
         log.debug("End: " + offset);
         assertEquals("b", b);
@@ -43,6 +43,9 @@ public class XmlUtilsTest {
         assertEquals("a", tricky);
         String none = XmlUtils.getTagValue("<dummy/>", "dummy");
         assertSame(null, none);
+        
+        String forest = XmlUtils.getTagValue(xml, "forest", null, null, false);
+        log.debug(forest);
     }
 
     @Test
