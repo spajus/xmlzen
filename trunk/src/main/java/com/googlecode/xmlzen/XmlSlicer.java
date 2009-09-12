@@ -24,14 +24,32 @@ import com.googlecode.xmlzen.utils.XmlUtils;
 /**
  * A Slicer for cutting XML into pieces. Some examples:
  * 
- * <p>#1 - get the value of a tag:</p>
+ * <li>Get the value of a tag:</li>
  * <pre>
  * String xml = "&lt;some&gt;stuff&lt;/some&gt;";
  * //value of stuff will be 'stuff'
  * String stuff = XmlSlicer.cut(xml).get("some");
  * </pre>
  * 
- * TODO - add more examples
+ * <li>Get the value of an attribute:</li>
+ * <pre>
+ * String xml = "&lt;some id="1"&gt;stuff&lt;/some&gt;";
+ * //value of id will be '1'
+ * String id = XmlSlicer.cut(xml).getAttribute("some", "id");
+ * </pre>
+ * 
+ * <li>Get a list of values from tags with same name:</li>
+ * <pre>
+ * String xml = 
+ * "&lt;birds&gt;" +
+ *   "&lt;bird&gt;pidgeon&lt;/bird&gt;" +
+ *   "&lt;bird&gt;crow&lt;/bird&gt;" +
+ * "&lt;/birds&gt;
+ * //would print: "Bird: pidgeon" and "Bird: crow" 
+ * for (String bird : XmlSlicer.cut(xml).getAll(bird).asList()) {
+ *     System.out.println("Bird: " + bird);
+ * }
+ * </pre>
  * 
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
  * @version $Id$
@@ -110,9 +128,7 @@ public class XmlSlicer {
         final XmlSlicerList results = new XmlSlicerList();
         while (lastOffset.getValue() != -1) {
             String chunk = XmlUtils.getTagValue(xml, tag, 
-                    startOffset, lastOffset);
-            System.out.println("Start: " + startOffset);
-            System.out.println("End: " + lastOffset);
+                    startOffset, lastOffset, true);
             startOffset.setValue(lastOffset.getValue());
             if (lastOffset.getValue() != -1) {
                 results.add(new XmlSlicer(chunk));
