@@ -16,27 +16,49 @@
  */
 package com.googlecode.xmlzen;
 
+/**
+ * A unchecked Exception that is thrown when XmlZen get's an error. 
+ * <p>
+ * If you're a fan of checked exceptions, you can try / catch this exception 
+ * anywhere in the code:</p>
+ * <pre>
+ * try {
+ *     XmlSlicer.cut(someXml).get('something');
+ * } catch (XmlZenException e) {
+ *     log.error("Failed cutting XML", e);
+ * }
+ * </pre>
+ * 
+ * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
+ * @version $Id$
+ */
 public class XmlZenException extends RuntimeException {
 
 	private static final long serialVersionUID = 2955472974450170367L;
 
-	public XmlZenException() {
-		// TODO Auto-generated constructor stub
-	}
+	/**
+	 * {@inheritDoc}
+	 */
+	public XmlZenException() {}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public XmlZenException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public XmlZenException(Throwable cause) {
 		super(cause);
-		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public XmlZenException(String message, Throwable cause) {
 		super(message, cause);
-		// TODO Auto-generated constructor stub
 	}
-
 }
