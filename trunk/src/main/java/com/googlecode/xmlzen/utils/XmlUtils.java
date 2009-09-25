@@ -23,6 +23,12 @@ import java.nio.charset.Charset;
 
 import com.googlecode.xmlzen.XmlZenException;
 
+/**
+ * XmlUtils - FIXME add documentation 
+ * 
+ * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
+ * @version $Id$
+ */
 public abstract class XmlUtils {
 
 	/**

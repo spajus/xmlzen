@@ -30,12 +30,31 @@ import org.apache.commons.logging.LogFactory;
 
 import com.googlecode.xmlzen.XmlZenException;
 
+/**
+ * FileUtils - FIXME add documentation 
+ * 
+ * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
+ * @version $Id$
+ */
 public abstract class FileUtils {
 
+    /**
+     * Logger
+     */
 	private static final Log log = LogFactory.getLog(FileUtils.class);
 
+	/**
+	 * File buffer - 2048 bytes.
+	 */
 	private static final int BUFFER = 2048;
 
+	/**
+	 * Reads a {@link File} and returns the contents as {@link String}
+	 * 
+	 * @param file File to read
+	 * @param charset Charset of this File
+	 * @return File contents as String
+	 */
 	public static String readFile(final File file, final String charset) {
 		InputStream in = null;
 		try {
@@ -56,10 +75,25 @@ public abstract class FileUtils {
 		}
 	}
 
+	/**
+	 * Reads a {@link File} and returns it's contents as String. Uses the 
+	 * default system charset.
+	 * 
+	 * @see #readFile(File, String)
+	 * @param file File to read
+	 * @return File contents as String
+	 */
 	public static String readFile(final File file) {
 		return readFile(file, Charset.defaultCharset().name());
 	}
 	
+	/**
+	 * Closes a {@link Closeable}, for instance a {@link FileInputStream}.
+	 * <p>
+	 * Null-safe, Supresses the IOException.</p>
+	 * 
+	 * @param closeable A {@link Closeable} object to be closed
+	 */
 	public static void close(final Closeable closeable) {
 		if (closeable == null)
 			return;
@@ -70,6 +104,15 @@ public abstract class FileUtils {
 		}
 	}
 
+	/**
+	 * Gets a {@link File} from a String that represents file path which is 
+	 * relative to current Class Path
+	 * 
+	 * @param path Path to File
+	 * @param classLoader {@link ClassLoader} that should be able to see the 
+	 *         file
+	 * @return {@link File} object or null if nothing is found
+	 */
 	public static File getClassPathFile(final String path,
 			final ClassLoader classLoader) {
 		final URL url = classLoader.getResource(path);
@@ -79,6 +122,14 @@ public abstract class FileUtils {
 		return new File(url.getFile());
 	}
 
+	/**
+	 * Gets a {@link File} form a String that represents file path which is
+	 * relative to current Class Path. Uses system's default ClassLoader.
+	 * 
+	 * @see #getClassPathFile(String, ClassLoader)
+	 * @param path Path to File
+	 * @return {@link File} object or null if nothing is found
+	 */
 	public static File getClassPathFile(final String path) {
 		return getClassPathFile(path, ClassLoader.getSystemClassLoader());
 	}
