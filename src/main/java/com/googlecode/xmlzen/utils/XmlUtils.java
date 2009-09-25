@@ -33,14 +33,14 @@ public abstract class XmlUtils {
 
 	/**
 	 * Tries to read the <?xml ... encoding="???"?> header. 
-	 * 
+	 * <p>
 	 * Possible outcomes are listed here: 
-	 * http://java.sun.com/j2se/1.5.0/docs/guide/intl/encoding.doc.html 
+	 * http://java.sun.com/j2se/1.5.0/docs/guide/intl/encoding.doc.html</p>
+	 * <p>
+	 * In case header is not found, Charset.defaultCharset().name() is returned</p>
 	 * 
-	 * In case header is not found, Charset.defaultCharset().name() is returned
-	 * 
-	 * @param file
-	 * @return
+	 * @param file XML File
+	 * @return Possible charset name
 	 */
 	public static String guessCharset(final File file) {
 		InputStream in = null;
@@ -59,6 +59,17 @@ public abstract class XmlUtils {
 		}
 	}
 
+	/**
+	 * Tries to read the <?xml ... encoding="???"?> header. 
+     * 
+     * Possible outcomes are listed here: 
+     * http://java.sun.com/j2se/1.5.0/docs/guide/intl/encoding.doc.html 
+     * 
+     * In case header is not found, Charset.defaultCharset().name() is returned
+     * 
+	 * @param xml XML String
+	 * @return Possible charset name
+	 */
 	public static String guessCharset(final String xml) {
 		int offEnc = xml.indexOf("encoding");
 		if (offEnc > 0) {
