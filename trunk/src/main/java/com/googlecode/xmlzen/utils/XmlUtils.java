@@ -119,7 +119,8 @@ public abstract class XmlUtils {
             start = xml.indexOf(tagStart, start + tagStart.length());
             next = xml.charAt(start + tagStart.length());
         }
-        //FIXME ended here
+        //FIXME ended here, was doing a possibility to get the whole tag, 
+        //not just contents
         int fullStart = start;
         start = xml.indexOf('>', start) + 1;
         int end = xml.indexOf(tagEnd, start);
