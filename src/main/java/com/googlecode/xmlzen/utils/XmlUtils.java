@@ -24,7 +24,9 @@ import java.nio.charset.Charset;
 import com.googlecode.xmlzen.XmlZenException;
 
 /**
- * XmlUtils - FIXME add documentation 
+ * Utilities for working with XML Strings. 
+ * <p>
+ * This class should not be used directly, instead, use XmlSlicer.</p>
  * 
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
  * @version $Id$
@@ -94,14 +96,51 @@ public abstract class XmlUtils {
 		}
 	}
 	
-	public static String getTagValue(String xml, String tag) {
+	/**
+	 * Gets the value of XML tag.
+	 * <p>
+	 * For example, if tag is &lt;a&gt;b&lt;a&gt;, the returned value would 
+	 * be "b".</p>
+	 * 
+	 * @see #getTagValue(String, String, Value, Value, boolean)
+	 * @param xml XML String
+	 * @param tag Target tag
+	 * @return Value of tag's contents
+	 */
+	public static String getTagValue(final String xml, final String tag) {
 	    return getTagValue(xml, tag, null, null, true);
 	}
 	
-    public static String getTagValue(String xml, String tag, 
-            Value<Integer> startOffset, 
-            Value<Integer> endOffset, boolean valueOnly) {
+
+    /**
+     * Gets the value of XML tag.
+     * <p>
+     * For example, if tag is &lt;a&gt;b&lt;a&gt;, the returned value would 
+     * be "b".</p>
+     * If valueOnly is set to false, whole tag is returned, not just content.
+     * </p>
+     * <p>
+     * Start and end offsets can be given to narrow the action to a concrete 
+     * region of the XML String. Also, the provided Value objects are filled 
+     * with exact start and end offset of the XML tag which value is returned. 
+     * </p>
+     * 
+     * @param xml XML String
+     * @param tag Target tag
+	 * @param startOffset Two-way {@link Value} with start offset
+	 * @param endOffset Two-way {@link Value} with end offset
+	 * @param valueOnly Return only the xml tag value, without tag itself
+	 * @return Value of tag's contents or whole tag with contents
+	 */
+	public static String getTagValue(final String xml, final String tag, 
+            final Value<Integer> startOffset, 
+            final Value<Integer> endOffset, 
+            final boolean valueOnly) {
+	    //A string that represents tag start, i.e.: "<someTag".
+	    //This string does not have any closing ">", because tag can have 
+	    //attributes or it can be autoclosed with "/>".
         String tagStart = "<".concat(tag);
+        //If tag has value it usually ends nicely with "</someTag>"
         String tagEnd = "</".concat(tag).concat(">");
         int start = xml.indexOf(tagStart, getValue(startOffset, 0));
         if (start == -1) {
@@ -109,20 +148,33 @@ public abstract class XmlUtils {
             return null;
         }
         char next = xml.charAt(start + tagStart.length());
+        //tag is immediately closed
         if (next == '/') {
             //offset of />
             setValue(startOffset, start);
-            setValue(endOffset, start + tagStart.length() + 1);
-            return null;
+            setValue(endOffset, start + tagStart.length() + 2);
+            if (valueOnly) {
+                return null;
+            } else {
+                return xml.substring(start, start + tagStart.length() + 2);
+            }
         }
         while (next != '>' && next != ' ') {
             start = xml.indexOf(tagStart, start + tagStart.length());
             next = xml.charAt(start + tagStart.length());
         }
-        //FIXME ended here, was doing a possibility to get the whole tag, 
-        //not just contents
         int fullStart = start;
         start = xml.indexOf('>', start) + 1;
+        //check if tag has no value
+        if (xml.charAt(start - 2) == '/') {
+            setValue(startOffset, fullStart);
+            setValue(endOffset, start);
+            if (valueOnly) {
+                return null;
+            } else {
+                return xml.substring(fullStart, start);
+            }
+        }
         int end = xml.indexOf(tagEnd, start);
         if (end == -1) {
             setValue(startOffset, -1);
@@ -138,6 +190,9 @@ public abstract class XmlUtils {
         } 
         setValue(startOffset, start - tagStart.length() - 1);
         setValue(endOffset, end + tagEnd.length());
+        if (!valueOnly) {
+            result = xml.substring(fullStart, end + tagEnd.length());
+        }
         return result;
     }
     
@@ -159,6 +214,11 @@ public abstract class XmlUtils {
         String tagStart = "<".concat(tag).concat(" ");
         int start = inputXml.indexOf(tagStart) + tagStart.length();
         int end = inputXml.indexOf('>', start);
+        return getAttributeInRange(inputXml, attribute, start, end);
+    }
+
+    private static String getAttributeInRange(String inputXml,
+            String attribute, int start, int end) {
         String attributes = inputXml.substring(start, end);
         start = (" ".concat(attributes)).indexOf(" ".concat(attribute).concat("="));
         if (start == -1) {
@@ -169,6 +229,16 @@ public abstract class XmlUtils {
         start++;
         end = attributes.indexOf(quote, start);
         return attributes.substring(start, end);
+    }
+    
+    public static String getFirstTagAttribute(String inputXml, String attribute) {
+        String tagStart = "<";
+        int start = inputXml.indexOf(tagStart);
+        if (inputXml.charAt(start + 1) == '?') {
+            start = inputXml.indexOf(tagStart, start + 2);
+        }
+        int end = inputXml.indexOf('>', start);
+        return getAttributeInRange(inputXml, attribute, start, end);
     }
     
     public static long getLongAttribute(String inputXml, String tag, String attribute) {

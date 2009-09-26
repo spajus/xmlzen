@@ -35,7 +35,7 @@ import com.googlecode.xmlzen.utils.XmlUtils;
  * <pre>
  * String xml = "&lt;some id="1"&gt;stuff&lt;/some&gt;";
  * //value of id will be '1'
- * String id = XmlSlicer.cut(xml).getAttribute("some", "id");
+ * String id = XmlSlicer.cut(xml).getTagAttribute("some", "id");
  * </pre>
  * 
  * <li>Get a list of values from tags with same name:</li>
@@ -83,24 +83,42 @@ public class XmlSlicer {
     }
     
     /**
-     * Gets the contents of an XML tag. Example:
-     * 
+     * Gets the contents of an XML tag.
+     * <p>
+     * Example:</p>
      * <pre>
      * //val will be 'xml'
      * String val = XmlSlicer.cut("&lt;an&gt;xml&lt;/an&gt;").getValue("an");
      * </pre>
-     * 
+     * <p>
      * Warning. You lose any attributes that <code>tag</code> was holding.
-     * Use {@link #getAttribute(String, String)} before {@link #get(String)} if 
-     * you need them.
+     * Use {@link #getTagAttribute(String, String)} before {@link #get(String)} if 
+     * you need them.</p>
      * 
-     * @param tag target tag name
-     * @return contents that are between <tag> and </tag>
+     * @param tag Target tag name
+     * @return Contents that are between &lt;tag&gt; and &lt;/tag&gt;
      */
     public XmlSlicer get(final String tag) {
         return new XmlSlicer(XmlUtils.getTagValue(xml, tag));
     }
 
+    /**
+     * Gets the full XML tag.
+     * <p>
+     * Example:</p>
+     * <pre>
+     * //val will be '&lt;an&gt;xml&lt/an&gt;'
+     * String val = XmlSlicer.cut("&lt;exampleOf&gt;&lt;an&gt;xml&lt;/an&gt;" +
+     *     "&lt;/exampleOf&gt;").getValue("an");
+     * </pre>
+     * 
+     * @param tag Target tag name
+     * @return Contents of the tag, including &lt;tag&gt; and &lt;/tag&gt;
+     */
+    public XmlSlicer getTag(final String tag) {
+        return new XmlSlicer(XmlUtils.getTagValue(xml, tag, null, null, false));
+    }
+    
     /**
      * Gets an XmlSlicerList (which is a {@link List}&lt;XmlSlicer&gt) that 
      * contains values of tags that share the same <code>tag</code> name.
@@ -119,16 +137,53 @@ public class XmlSlicer {
      * </pre>
      * 
      * @see XmlSlicerList
-     * @param tag xml tag name
+     * @param tag Target xml tag name
      * @return XmlSlicerList - a List of XmlSlicer objects
      */
     public XmlSlicerList getAll(final String tag) {
+        return getTagValues(tag, true);
+    }
+    
+    /**
+     * Gets an XmlSlicerList (which is a {@link List}&lt;XmlSlicer&gt) that 
+     * contains tags that share the same <code>tag</code> name.
+     * <p>Example use:</p>
+     * 
+     * <pre>
+     * String xml = 
+     * "&lt;birds&gt;" +
+     *   "&lt;bird&gt;pidgeon&lt;/bird&gt;" +
+     *   "&lt;bird&gt;crow&lt;/bird&gt;" +
+     * "&lt;/birds&gt;
+     * //would print: "Bird: &lt;bird&gt;pidgeon&lt;/bird&gt;" 
+     * //and "Bird: &lt;bird&gt;crow&lt;/bird&gt;" 
+     * for (String bird : XmlSlicer.cut(xml).getAll(bird).asList()) {
+     *     System.out.println("Bird: " + bird);
+     * }
+     * </pre>
+     * 
+     * @see XmlSlicerList
+     * @param tag Target xml tag name
+     * @return XmlSlicerList - a List of XmlSlicer objects
+     */    
+    public XmlSlicerList getTags(final String tag) {
+        return getTagValues(tag, false);
+    }
+
+    /**
+     * Used internally for getting a list of tags or tag values
+     * 
+     * @param tag Target tag name
+     * @param valuesOnly
+     * @return List of Tag values or Tags
+     */
+    private XmlSlicerList getTagValues(final String tag, boolean valuesOnly) {
         final Value<Integer> startOffset = new Value<Integer>(0);
         final Value<Integer> lastOffset = new Value<Integer>(0);
         final XmlSlicerList results = new XmlSlicerList();
         while (lastOffset.getValue() != -1) {
             String chunk = XmlUtils.getTagValue(xml, tag, 
-                    startOffset, lastOffset, true);
+                    startOffset, lastOffset, valuesOnly);
             startOffset.setValue(lastOffset.getValue());
             if (lastOffset.getValue() != -1) {
                 results.add(new XmlSlicer(chunk));
@@ -143,15 +198,31 @@ public class XmlSlicer {
      * <pre>
      * //value of attr will be 'val'
      * String attr = XmlSlicer.cut("&lt;xml attr="val"/&gt;")\
-     *     .getAttribute("xml", "attr");
+     *     .getTagAttribute("xml", "attr");
      * </pre>
      * 
      * @param tag tag name
      * @param attribute attribute name
      * @return tag attribute's value 
      */
-    public String getAttribute(final String tag, final String attribute) {
+    public String getTagAttribute(final String tag, final String attribute) {
         return XmlUtils.getAttribute(xml, tag, attribute);
+    }
+    
+    /**
+     * Gets the attribute value from the first XML tag. Example:
+     * 
+     * <pre>
+     * //value of attr will be 'val'
+     * String attr = XmlSlicer.cut("&lt;xml attr="val"/&gt;")
+     *     .getTag("xml").attribute("attr");
+     * </pre>
+     * 
+     * @param attribute Attribute name
+     * @return First tag attribute's value 
+     */
+    public String attribute(final String attribute) {
+        return XmlUtils.getFirstTagAttribute(xml, attribute);
     }
     
     @Override

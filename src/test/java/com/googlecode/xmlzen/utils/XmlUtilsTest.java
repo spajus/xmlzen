@@ -49,6 +49,20 @@ public class XmlUtilsTest {
     }
 
     @Test
+    public void getClosedTagTest() {
+        String tag = XmlUtils.getTagValue("<some><tag/></some>", "tag", 
+                null, null, false);
+        log.debug(tag);
+        assertEquals("<tag/>", tag);
+        tag = XmlUtils.getTagValue("<some><tag attr=\"omg\"/></some>",
+                "tag", null, null, false);
+        log.debug(tag);
+        assertEquals("<tag attr=\"omg\"/>", tag);
+        tag = XmlUtils.getTagValue("<some><tag attr=\"omg\"/></some>", "tag");
+        assertEquals(null, tag);
+    }
+    
+    @Test
     public void ultimateTest() throws Exception {
         String first = XmlUtils.getTagValue(xml, "forest");
         assertTrue(first.replaceAll("\\s+", "").trim().endsWith("another>"));
