@@ -196,7 +196,7 @@ public abstract class XmlUtils {
         return result;
     }
     
-    private static int getValue(Value<Integer> source, int ifNull) {
+    private static int getValue(final Value<Integer> source, int ifNull) {
         if (source == null) {
             return ifNull;
         } else {
@@ -204,21 +204,23 @@ public abstract class XmlUtils {
         }
     }
     
-    private static void setValue(Value<Integer> target, Integer value) {
+    private static void setValue(final Value<Integer> target, 
+                final Integer value) {
         if (target != null) {
             target.setValue(value);
         }
     }
     
-    public static String getAttribute(String inputXml, String tag, String attribute) {
+    public static String getAttribute(final String inputXml, final String tag, 
+            final String attribute) {
         String tagStart = "<".concat(tag).concat(" ");
         int start = inputXml.indexOf(tagStart) + tagStart.length();
         int end = inputXml.indexOf('>', start);
         return getAttributeInRange(inputXml, attribute, start, end);
     }
 
-    private static String getAttributeInRange(String inputXml,
-            String attribute, int start, int end) {
+    private static String getAttributeInRange(final String inputXml,
+            final String attribute, int start, int end) {
         String attributes = inputXml.substring(start, end);
         start = (" ".concat(attributes)).indexOf(" ".concat(attribute).concat("="));
         if (start == -1) {
@@ -231,7 +233,8 @@ public abstract class XmlUtils {
         return attributes.substring(start, end);
     }
     
-    public static String getFirstTagAttribute(String inputXml, String attribute) {
+    public static String getFirstTagAttribute(final String inputXml, 
+            final String attribute) {
         String tagStart = "<";
         int start = inputXml.indexOf(tagStart);
         if (inputXml.charAt(start + 1) == '?') {
@@ -241,11 +244,13 @@ public abstract class XmlUtils {
         return getAttributeInRange(inputXml, attribute, start, end);
     }
     
-    public static long getLongAttribute(String inputXml, String tag, String attribute) {
+    public static long getLongAttribute(final String inputXml, final String tag, 
+            final String attribute) {
         return Long.parseLong(getAttribute(inputXml, tag, attribute));
     }
 
-    public static int getIntAttribute(String inputXml, String tag, String attribute) {
+    public static int getIntAttribute(final String inputXml, final String tag, 
+            final String attribute) {
         return Integer.parseInt(getAttribute(inputXml, tag, attribute));
     }
 }
