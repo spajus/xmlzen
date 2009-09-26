@@ -41,7 +41,7 @@ public class XmlSlicerTest {
     public void testComplexHtmlProcessing() throws Exception {
         String xml = FileUtils.readFile(
                 FileUtils.getClassPathFile("xmls/complex.html"));
-        String formAction = XmlSlicer.cut(xml).getAttribute("form", "action");
+        String formAction = XmlSlicer.cut(xml).getTagAttribute("form", "action");
         log.debug("Form Action: " + formAction);
         List<String> divs = XmlSlicer.cut(xml).getAll("div").asList();
         log.debug(divs.size());

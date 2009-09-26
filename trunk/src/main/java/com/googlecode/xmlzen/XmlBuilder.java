@@ -135,7 +135,7 @@ public class XmlBuilder {
     public static XmlBuilder newXml(final String charset) {
     	return new XmlBuilder()
     		.withDeclaration("<?xml version=\"1.0\" encoding=\"" 
-    				.concat(charset).concat("\" ?>"));
+    				.concat(charset).concat("\"?>"));
     }
     
     /**
