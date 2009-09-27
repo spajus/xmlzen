@@ -83,7 +83,7 @@ public class XmlBuilder {
      * @see #closeTag()
      * @see #closeAllTags()
      */
-    private Stack<String> tagStack = new Stack<String>();
+    private final Stack<String> tagStack = new Stack<String>();
     
     /**
      * Flag that denotes that currently open tag is not yet terminated with 

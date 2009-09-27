@@ -51,7 +51,7 @@ public abstract class XmlUtils {
 			in = new FileInputStream(file);
 			//<?xml version="1.0" encoding="Windows-1257"?> ~50 bytes
 			//100 bytes should be more than enough to read such a header
-			byte[] head = new byte[100]; 
+			final byte[] head = new byte[100]; 
 			in.read(head);
 			return guessCharset(new String(head));
 		} catch (final Exception e) {
@@ -75,7 +75,7 @@ public abstract class XmlUtils {
 	 * @return Possible charset name
 	 */
 	public static String guessCharset(final String xml) {
-		int offEnc = xml.indexOf("encoding");
+		final int offEnc = xml.indexOf("encoding");
 		if (offEnc > 0) {
 			//find the quote
 			int offQuote = xml.indexOf('"', offEnc + 8);
@@ -86,7 +86,8 @@ public abstract class XmlUtils {
 				return Charset.defaultCharset().name();
 			}
 			//find the ending quote offset and increase start offset
-			int offQuoteEnd = xml.indexOf(xml.charAt(offQuote++), offQuote + 1);
+			final int offQuoteEnd = xml.indexOf(xml.charAt(offQuote++), 
+			        offQuote + 1);
 			if (offQuoteEnd < 1) {
 				//sounds like an incomplete header
 				return Charset.defaultCharset().name();
@@ -140,9 +141,9 @@ public abstract class XmlUtils {
 	    //A string that represents tag start, i.e.: "<someTag".
 	    //This string does not have any closing ">", because tag can have 
 	    //attributes or it can be autoclosed with "/>".
-        String tagStart = "<".concat(tag);
+        final String tagStart = "<".concat(tag);
         //If tag has value it usually ends nicely with "</someTag>"
-        String tagEnd = "</".concat(tag).concat(">");
+        final String tagEnd = "</".concat(tag).concat(">");
         int start = xml.indexOf(tagStart, getValue(startOffset, 0));
         if (start == -1) {
             setValue(endOffset, -1);
@@ -164,7 +165,7 @@ public abstract class XmlUtils {
             start = xml.indexOf(tagStart, start + tagStart.length());
             next = xml.charAt(start + tagStart.length());
         }
-        int fullStart = start;
+        final int fullStart = start;
         start = xml.indexOf('>', start) + 1;
         //check if tag has no value
         if (xml.charAt(start - 2) == '/') {
@@ -205,7 +206,7 @@ public abstract class XmlUtils {
 	 * @param ifNull Default value that is returned if source is null
 	 * @return Source int value or default value if source is null
 	 */
-    private static int getValue(final Value<Integer> source, int ifNull) {
+    private static int getValue(final Value<Integer> source, final int ifNull) {
         if (source == null) {
             return ifNull;
         } else {
@@ -236,9 +237,9 @@ public abstract class XmlUtils {
      */
     public static String getAttribute(final String inputXml, final String tag, 
             final String attribute) {
-        String tagStart = "<".concat(tag).concat(" ");
-        int start = inputXml.indexOf(tagStart) + tagStart.length();
-        int end = inputXml.indexOf('>', start);
+        final String tagStart = "<".concat(tag).concat(" ");
+        final int start = inputXml.indexOf(tagStart) + tagStart.length();
+        final int end = inputXml.indexOf('>', start);
         return getAttributeInRange(inputXml, attribute, start, end);
     }
 
@@ -253,13 +254,14 @@ public abstract class XmlUtils {
      */
     private static String getAttributeInRange(final String inputXml,
             final String attribute, int start, int end) {
-        String attributes = inputXml.substring(start, end);
-        start = (" ".concat(attributes)).indexOf(" ".concat(attribute).concat("="));
+        final String attributes = inputXml.substring(start, end);
+        start = (" ".concat(attributes)).indexOf(
+                " ".concat(attribute).concat("="));
         if (start == -1) {
             return null;
         }
         start += attribute.length() + 1;
-        char quote = attributes.charAt(start);
+        final char quote = attributes.charAt(start);
         start++;
         end = attributes.indexOf(quote, start);
         return attributes.substring(start, end);
@@ -274,12 +276,12 @@ public abstract class XmlUtils {
      */
     public static String getFirstTagAttribute(final String inputXml, 
             final String attribute) {
-        String tagStart = "<";
+        final String tagStart = "<";
         int start = inputXml.indexOf(tagStart);
         if (inputXml.charAt(start + 1) == '?') {
             start = inputXml.indexOf(tagStart, start + 2);
         }
-        int end = inputXml.indexOf('>', start);
+        final int end = inputXml.indexOf('>', start);
         return getAttributeInRange(inputXml, attribute, start, end);
     }
     

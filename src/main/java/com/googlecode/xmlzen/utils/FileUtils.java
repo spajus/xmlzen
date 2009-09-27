@@ -60,6 +60,9 @@ public abstract class FileUtils {
 	public static String readFile(final File file, final String charset) {
 		InputStream in = null;
 		try {
+		    if (!file.isFile()) {
+		        return null;
+		    }
 			in = new FileInputStream(file);
 			final BufferedInputStream buffIn = new BufferedInputStream(in);
 			final byte[] buffer = new byte[(int) Math
@@ -97,8 +100,9 @@ public abstract class FileUtils {
 	 * @param closeable A {@link Closeable} object to be closed
 	 */
 	public static void close(final Closeable closeable) {
-		if (closeable == null)
+		if (closeable == null) {
 			return;
+		}
 		try {
 			closeable.close();
 		} catch (final IOException e) {

@@ -23,10 +23,13 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
+
+import com.googlecode.xmlzen.XmlZenException;
 
 /**
  * Unit tests for {@link FileUtils}
@@ -37,6 +40,21 @@ import org.junit.Test;
 public class FileUtilsTest {
 	
 	private static final Log log = LogFactory.getLog(FileUtils.class);
+	
+	@Test
+    public void testBadFile() throws Exception {
+        String n = FileUtils.readFile(new File("/dev/null"));
+        assertTrue(n == null);
+        File f = FileUtils.getClassPathFile("nonexistent");
+        assertTrue(f == null);
+        try {
+            n = FileUtils.readFile(FileUtils.getClassPathFile("xmls/note.xml"), 
+                    "FAKE-8");
+            fail("Fake charset passed through");
+        } catch (final XmlZenException e) {
+            //expected
+        }
+    }
 	
 	@Test
 	public void testGetClassPathFile() throws Exception {
@@ -69,5 +87,19 @@ public class FileUtilsTest {
 			//expected
 		}
 		FileUtils.close(in);
+		try {
+		    FileUtils.close(new InputStream() {
+                @Override
+                public int read() throws IOException {
+                    return 0;
+                }
+                @Override
+                public void close() throws IOException {
+                    throw new IOException("Fake close exception");
+                }
+		    });
+		} catch (final RuntimeException e) {
+		    fail("Should be caught somewhere else");
+		}
  	}
 }
