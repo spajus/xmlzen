@@ -1,3 +1,19 @@
+/*
+ * Copyright 2009 Tomas Varaneckas 
+ * http://www.varaneckas.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.googlecode.xmlzen.utils;
 
 import static org.junit.Assert.assertEquals;
@@ -12,6 +28,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
+/**
+ * Unit tests for {@link XmlUtils}
+ * 
+ * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
+ * @version $Id$
+ */
 public class XmlUtilsTest {
 
     private static final Log log = LogFactory.getLog(XmlUtilsTest.class);
@@ -124,7 +146,8 @@ public class XmlUtilsTest {
     }
 
     public void testAttributes() {
-        String data = "<data id=\"123\" responseTo=\"431\" type=\"sometype\">someshit</data>\n\n";
+        String data = "<data id=\"123\" responseTo=\"431\" type=\"sometype\">" +
+        		"someshit</data>\n\n";
         String res = XmlUtils.getAttribute(data, "data", "responseTo");
         assertEquals("431", res);
     }

@@ -43,17 +43,20 @@ public class XmlSlicerList extends ArrayList<XmlSlicer> {
     private static final long serialVersionUID = 4963346323773728803L;
 
     /**
-     * Retuns a List of String values of underlying XmlSlicer objects
+     * Retuns a List of String values of underlying XmlSlicer objects.
+     * Thread safe.
      * 
      * @return List of Strings with tag values
      */
     public List<String> asList() {
+        XmlSlicerList temp;
         synchronized (this) {
-            final List<String> result = new ArrayList<String>();
-            for (XmlSlicer slice : this) {
-                result.add(slice.toString());
-            }
-            return result;
+            temp = (XmlSlicerList) this.clone();
         }
+        final List<String> result = new ArrayList<String>();
+        for (final XmlSlicer slice : temp) {
+            result.add(slice.toString());
+        }
+        return result;
     }
 }

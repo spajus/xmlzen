@@ -1,11 +1,34 @@
+/*
+ * Copyright 2009 Tomas Varaneckas 
+ * http://www.varaneckas.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.googlecode.xmlzen;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
+/**
+ * Unit tests for {@link XmlBuilder}
+ * 
+ * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
+ * @version $Id$
+ */
 public class XmlBuilderTest {
 
     private static final Log log = LogFactory.getLog(XmlBuilderTest.class);
@@ -19,6 +42,7 @@ public class XmlBuilderTest {
                     .withValue("you can build")
                 .closeTag()
                 .openTag("your").withAttribute("xml", "nicely")
+                .withAttributeIf(1 < 0, "shouldnot", "happen")
             .toString();
         log.debug(xml);
         assertEquals("<xml id=\"1\"><thisishow>you can build</thisishow>" +
@@ -26,9 +50,44 @@ public class XmlBuilderTest {
     }
     
     @Test
+    public void testWrongBuild() throws Exception {
+        try {
+            XmlBuilder.newXml("UTF-8").withDeclaration("");
+            fail("Should not allow adding declaration again");
+        } catch (final XmlZenException e) {
+            //expected
+        }
+        try {
+            XmlBuilder.newXml().openTag("tag").withDeclaration("");
+            fail("Should not allow adding declaration here");
+        } catch (final XmlZenException e) {
+            //expected
+        }
+        try {
+            XmlBuilder.newXml().withAttribute("a", "b");
+            fail("Should not allow adding attribute here");
+        } catch (final XmlZenException e) {
+            //expected
+        }
+        try {
+            XmlBuilder.newXml().withValue("test");
+            fail("Should not allow adding value here");
+        } catch (final XmlZenException e) {
+            //expected
+        }
+        try {
+            XmlBuilder.newXml().closeTag();
+            fail("Should not allow closing tag here");
+        } catch (final XmlZenException e) {
+            //expected
+        }
+    }
+    
+    @Test
 	public void testComplexBuild() throws Exception {
         String xml = XmlBuilder.newXml("utf-8")
-  		    .openTag("root").withAttribute("id", 1).withAttribute("one", "two")
+  		    .openTag("root").withAttribute("id", 1)
+  		        .withAttributeIf(true, "one", "two")
   		        .openTag("inner1")
   		        .openTag("inner11").withAttribute("x", "y") 
        			    .withValue("somthing inside")
