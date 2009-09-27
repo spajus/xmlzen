@@ -140,6 +140,7 @@ public class XmlBuilder {
     
     /**
      * Adds a declaration to you XML. 
+     * 
      * <p>It can be something like 
      * "&lt;?xml version="1.0" encoding="utf-8"? &gt;"</p>
      * 

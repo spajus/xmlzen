@@ -39,7 +39,8 @@ public abstract class XmlUtils {
 	 * Possible outcomes are listed here: 
 	 * http://java.sun.com/j2se/1.5.0/docs/guide/intl/encoding.doc.html</p>
 	 * <p>
-	 * In case header is not found, Charset.defaultCharset().name() is returned</p>
+	 * In case header is not found, Charset.defaultCharset().name() is returned
+	 * </p>
 	 * 
 	 * @param file XML File
 	 * @return Possible charset name
@@ -63,11 +64,12 @@ public abstract class XmlUtils {
 
 	/**
 	 * Tries to read the <?xml ... encoding="???"?> header. 
-     * 
+     * <p>
      * Possible outcomes are listed here: 
-     * http://java.sun.com/j2se/1.5.0/docs/guide/intl/encoding.doc.html 
-     * 
+     * http://java.sun.com/j2se/1.5.0/docs/guide/intl/encoding.doc.html</p>
+     * <p>
      * In case header is not found, Charset.defaultCharset().name() is returned
+     * </p>
      * 
 	 * @param xml XML String
 	 * @return Possible charset name
@@ -111,7 +113,6 @@ public abstract class XmlUtils {
 	    return getTagValue(xml, tag, null, null, true);
 	}
 	
-
     /**
      * Gets the value of XML tag.
      * <p>
@@ -196,6 +197,14 @@ public abstract class XmlUtils {
         return result;
     }
     
+	/**
+	 * Gets int value from {@link Value} object. If the object is null, you can
+	 * provide the default value.
+	 * 
+	 * @param source Source Value object
+	 * @param ifNull Default value that is returned if source is null
+	 * @return Source int value or default value if source is null
+	 */
     private static int getValue(final Value<Integer> source, int ifNull) {
         if (source == null) {
             return ifNull;
@@ -204,6 +213,12 @@ public abstract class XmlUtils {
         }
     }
     
+    /**
+     * Sets value on {@link Value} object if it's not null
+     * 
+     * @param target Value object or null
+     * @param value Value to be set
+     */
     private static void setValue(final Value<Integer> target, 
                 final Integer value) {
         if (target != null) {
@@ -211,6 +226,14 @@ public abstract class XmlUtils {
         }
     }
     
+    /**
+     * Gets the value of a tag attribute
+     * 
+     * @param inputXml Source XML to look the tag for
+     * @param tag Tag name
+     * @param attribute Attribute name
+     * @return Value of the attribute
+     */
     public static String getAttribute(final String inputXml, final String tag, 
             final String attribute) {
         String tagStart = "<".concat(tag).concat(" ");
@@ -219,6 +242,15 @@ public abstract class XmlUtils {
         return getAttributeInRange(inputXml, attribute, start, end);
     }
 
+    /**
+     * Looks for attribute value in XML String within a given range 
+     * 
+     * @param inputXml Source XML String
+     * @param attribute Attribute name
+     * @param start Range start
+     * @param end Range end
+     * @return Value of the attribute
+     */
     private static String getAttributeInRange(final String inputXml,
             final String attribute, int start, int end) {
         String attributes = inputXml.substring(start, end);
@@ -233,6 +265,13 @@ public abstract class XmlUtils {
         return attributes.substring(start, end);
     }
     
+    /**
+     * Return gets the attribute value of the first tag in given XML String
+     * 
+     * @param inputXml Source XML
+     * @param attribute Attribute name
+     * @return Value of the attribute
+     */
     public static String getFirstTagAttribute(final String inputXml, 
             final String attribute) {
         String tagStart = "<";
@@ -244,11 +283,29 @@ public abstract class XmlUtils {
         return getAttributeInRange(inputXml, attribute, start, end);
     }
     
+    /**
+     * Gets the long value of an attribute in given XML
+     * 
+     * @see #getAttribute(String, String, String)
+     * @param inputXml Source XML
+     * @param tag Tag name
+     * @param attribute Attribute name
+     * @return Value of the attribute parsed as long
+     */
     public static long getLongAttribute(final String inputXml, final String tag, 
             final String attribute) {
         return Long.parseLong(getAttribute(inputXml, tag, attribute));
     }
 
+    /**
+     * Gets the int value of an attribute in given XML
+     * 
+     * @see #getAttribute(String, String, String)
+     * @param inputXml Source XML
+     * @param tag Tag name
+     * @param attribute Attribute name
+     * @return Value of the attribute parsed as int
+     */
     public static int getIntAttribute(final String inputXml, final String tag, 
             final String attribute) {
         return Integer.parseInt(getAttribute(inputXml, tag, attribute));

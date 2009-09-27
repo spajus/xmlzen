@@ -44,21 +44,21 @@ public class XmlZenException extends RuntimeException {
 	/**
 	 * {@inheritDoc}
 	 */
-	public XmlZenException(String message) {
+	public XmlZenException(final String message) {
 		super(message);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public XmlZenException(Throwable cause) {
+	public XmlZenException(final Throwable cause) {
 		super(cause);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public XmlZenException(String message, Throwable cause) {
+	public XmlZenException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 }

@@ -28,7 +28,8 @@ import java.util.List;
  * 
  * Example use:
  * <pre>
- * List&lt;String&gt; tags = XmlSlicer.cut(someBigXml).getAll('sometag').asList();
+ * List&lt;String&gt; tags = XmlSlicer.cut(someBigXml).getAll('sometag')
+ *     .asList();
  * //Equivalent to following:
  * XmlSlicerList tagList = XmlSlicer.cut(someBigXml).getAll('sometag');
  * List&lt;String&gt; tags = tagList.asList();

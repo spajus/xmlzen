@@ -31,7 +31,9 @@ import org.apache.commons.logging.LogFactory;
 import com.googlecode.xmlzen.XmlZenException;
 
 /**
- * FileUtils - FIXME add documentation 
+ * File manipulation utilities
+ * 
+ * <p>Mostly used for reading Files into Strings, finding Files in class path<p> 
  * 
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
  * @version $Id$
