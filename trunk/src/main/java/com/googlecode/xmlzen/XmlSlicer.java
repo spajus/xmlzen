@@ -92,8 +92,8 @@ public class XmlSlicer {
      * </pre>
      * <p>
      * Warning. You lose any attributes that <code>tag</code> was holding.
-     * Use {@link #getTagAttribute(String, String)} before {@link #get(String)} if 
-     * you need them.</p>
+     * Use {@link #getTagAttribute(String, String)} before {@link #get(String)} 
+     * if you need them.</p>
      * 
      * @param tag Target tag name
      * @return Contents that are between &lt;tag&gt; and &lt;/tag&gt;
@@ -177,12 +177,13 @@ public class XmlSlicer {
      * @param valuesOnly
      * @return List of Tag values or Tags
      */
-    private XmlSlicerList getTagValues(final String tag, boolean valuesOnly) {
+    private XmlSlicerList getTagValues(final String tag, 
+            final boolean valuesOnly) {
         final Value<Integer> startOffset = new Value<Integer>(0);
         final Value<Integer> lastOffset = new Value<Integer>(0);
         final XmlSlicerList results = new XmlSlicerList();
         while (lastOffset.getValue() != -1) {
-            String chunk = XmlUtils.getTagValue(xml, tag, 
+            final String chunk = XmlUtils.getTagValue(xml, tag, 
                     startOffset, lastOffset, valuesOnly);
             startOffset.setValue(lastOffset.getValue());
             if (lastOffset.getValue() != -1) {
