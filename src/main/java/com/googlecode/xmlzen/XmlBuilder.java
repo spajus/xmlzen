@@ -230,8 +230,8 @@ public class XmlBuilder {
      * Sets tag value. You have to open a tag fist.
      * 
      * @see #openTag(String)
-     * @param value
-     * @return
+     * @param value Value of the currently open tag
+     * @return self
      */
     public XmlBuilder withValue(final Object value) {
         if (!tagIsPendingTermination) {
@@ -297,6 +297,7 @@ public class XmlBuilder {
      * invoke it in the middle of construction to see a partial result.</p>
      *  
      * @see #closeAllTags() 
+     * @return XML String which is the result of current building process
      */
     @Override
     public String toString() {

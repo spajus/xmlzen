@@ -66,7 +66,7 @@ public class XmlSlicer {
      * {@link #cut(String)} for instantiating XmlSlicer.
      * 
      * @see #cut(String)
-     * @param xml
+     * @param xml Source XML String
      */
     private XmlSlicer(final String xml) {
         this.xml = xml;
@@ -76,7 +76,7 @@ public class XmlSlicer {
      * Factory method that requires an XML in form of a String.
      * You can make a String from file by using FileUtils.readFile()
      * 
-     * @param xml
+     * @param xmlString Source XML String
      */
     public static XmlSlicer cut(final String xmlString) {
         return new XmlSlicer(xmlString);
