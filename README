@@ -23,3 +23,10 @@ In many cases you will only need basic features for processing XML files, and in
 such cases there is no need to choke on huge APIs and implementations that 
 support all the gore displayed above. By using bloatware you create new 
 bloatware. Find the inspiration in minimalism, try XML Zen.
+
+================
+Building XML Zen
+================
+You should use Maven to build XML Zen. Simply execute:
+mvn package
+The artifact (xmlzen-X.X.X.jar) will be generated in target/ folder
