@@ -24,21 +24,21 @@ import com.googlecode.xmlzen.utils.XmlUtils;
 /**
  * A Slicer for cutting XML into pieces. Some examples:
  * 
- * <li>Get the value of a tag:</li>
+ * <li><em>Getting the value of a tag:</em></li>
  * <pre>
  * String xml = "&lt;some&gt;stuff&lt;/some&gt;";
  * //value of stuff will be 'stuff'
  * String stuff = XmlSlicer.cut(xml).get("some");
  * </pre>
  * 
- * <li>Get the value of an attribute:</li>
+ * <li><em>Get the value of an attribute:</em></li>
  * <pre>
  * String xml = "&lt;some id="1"&gt;stuff&lt;/some&gt;";
  * //value of id will be '1'
  * String id = XmlSlicer.cut(xml).getTagAttribute("some", "id");
  * </pre>
  * 
- * <li>Get a list of values from tags with same name:</li>
+ * <li><em>Get a list of values from tags with same name:</em></li>
  * <pre>
  * String xml = 
  * "&lt;birds&gt;" +
