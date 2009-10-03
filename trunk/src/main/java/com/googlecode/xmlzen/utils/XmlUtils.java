@@ -286,6 +286,26 @@ public abstract class XmlUtils {
     }
     
     /**
+     * Gets the value of first XML tag
+     * 
+     * @param inputXml Source XML String
+     * @return Value of first tag
+     */
+    public static String getFirstTagValue(final String inputXml) {
+        int start = inputXml.indexOf('<');
+        //xml declaration
+        if (inputXml.charAt(start + 1) == '?') {
+            start = inputXml.indexOf('<', start + 1);
+        }
+        int end = inputXml.indexOf('>', start);
+        String tag = inputXml.substring(start + 1, end);
+        if (tag.indexOf(' ') != -1) {
+            tag = tag.substring(0, tag.indexOf(' '));
+        }
+        return getTagValue(inputXml, tag);
+    }
+    
+    /**
      * Gets the long value of an attribute in given XML
      * 
      * @see #getAttribute(String, String, String)

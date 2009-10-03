@@ -145,6 +145,7 @@ public class XmlUtilsTest {
         assertEquals("give me echo!", content);
     }
 
+    @Test
     public void testAttributes() {
         String data = "<data id=\"123\" responseTo=\"431\" type=\"sometype\">" +
         		"someshit</data>\n\n";
@@ -172,4 +173,15 @@ public class XmlUtilsTest {
         log.debug(charset);
     }
 
+    @Test
+    public void testGetFirstTagValue() throws Exception {
+        assertEquals("value", XmlUtils.getFirstTagValue("<xml>value</xml>"));
+        assertEquals("value", XmlUtils.getFirstTagValue(
+                "<xml id=\"314\">value</xml>"));
+        assertEquals("value", XmlUtils.getFirstTagValue(
+                "<?xml version='1.0' encoding='utf-8'?>\n<xml>value</xml>"));
+        assertEquals(null, XmlUtils.getFirstTagValue("<xml/>"));
+        assertEquals(null, XmlUtils.getFirstTagValue("<xml tag=\"bla\"/>"));
+        
+    }
 }
