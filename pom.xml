@@ -9,7 +9,7 @@
   <artifactId>xmlzen</artifactId>
   <name>XML Zen</name>
   <description>A non-bloated way of working with XML files in Java</description>
-  <version>0.1.0</version>
+  <version>0.1.1-SNAPSHOT</version>
   <url>http://xmlzen.googlecode.com</url>
   <packaging>jar</packaging>
   <inceptionYear>2009</inceptionYear>
@@ -86,6 +86,7 @@
       <extension>
         <groupId>org.jvnet.wagon-svn</groupId>
         <artifactId>wagon-svn</artifactId>
+        <version>1.9</version>
       </extension>
     </extensions>
   </build>

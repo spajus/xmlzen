@@ -98,5 +98,11 @@ public class XmlSlicerTest {
         assertTrue(imgSrc
                 .startsWith("http://wt.o.nytimes.com/dcsym57yw10000s1s8g0boozt_9t1x/njs.gif"));
     }
+    
+    @Test
+    public void testValue() throws Exception {
+        String val = XmlSlicer.cut("<xml>123</xml>").value();
+        assertEquals("123", val);
+    }
 
 }

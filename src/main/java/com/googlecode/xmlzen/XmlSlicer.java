@@ -226,6 +226,18 @@ public class XmlSlicer {
         return XmlUtils.getFirstTagAttribute(xml, attribute);
     }
     
+    /**
+     * Gets the value from the first XML tag. Example:
+     * 
+     * <pre>
+     * //value of val will be '123'
+     * String val = XmlSlicer.cut(&lt;xml&gt;123&lt;/xml&gt;).value();
+     * @return
+     */
+    public String value() {
+        return XmlUtils.getFirstTagValue(xml);
+    }
+    
     @Override
     public String toString() {
         return xml;
