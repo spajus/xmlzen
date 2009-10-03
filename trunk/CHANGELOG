@@ -4,6 +4,14 @@ XMLZEN CHANGELOG
 ================
 http://xmlzen.googlecode.com
 
-Changes in version 0.1 (2009-09-27)
------------------------------------
+Changes in version 0.1.1 (?)
+* Added possibility to build formatted XML.
+  http://code.google.com/p/xmlzen/issues/detail?id=1
+* XmlBuilder.toString() no longer closes all tags. toString(true) does.
+  http://code.google.com/p/xmlzen/issues/detail?id=2
+* Added XmlSlicer.value() method that returns value of first tag of current XML.
+  http://code.google.com/p/xmlzen/issues/detail?id=3    
+
+Changes in version 0.1.0 (2009-09-27)
+-------------------------------------
 * Initial release

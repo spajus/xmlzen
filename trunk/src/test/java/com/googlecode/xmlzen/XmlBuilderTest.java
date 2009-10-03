@@ -43,7 +43,7 @@ public class XmlBuilderTest {
                 .closeTag()
                 .openTag("your").withAttribute("xml", "nicely")
                 .withAttributeIf(1 < 0, "shouldnot", "happen")
-            .toString();
+            .toString(true);
         log.debug(xml);
         assertEquals("<xml id=\"1\"><thisishow>you can build</thisishow>" +
         		"<your xml=\"nicely\"/></xml>", xml);
@@ -107,5 +107,44 @@ public class XmlBuilderTest {
         		"<inner2>another boring value</inner2></root>", xml);
         log.debug(xml);
 	}
+    
+    @Test
+    public void testBeautifulBuild() throws Exception {
+        String xml = XmlBuilder.newXml("UTF-8", true)
+        .openTag("test")
+            .openTag("inner").withAttribute("x", "y").closeTag()
+            .openTag("deeper")
+                .openTag("core").withValue("hard").closeTag()
+                .openTag("check")
+                    .openTag("levels")
+                        .openTag("of")
+                            .openTag("deepness").withAttribute("good", "1")
+                                .withValue("so deep")
+                            .closeTag()
+                        .closeTag()
+                    .closeTag()
+                .openTag("checker").withValue("unexpected").closeTag()
+            .closeTag()
+        .closeTag().toString();
+        log.debug(xml);
+    }
+    
+    @Test
+    public void testBeautifulBuild2() throws Exception {
+        String xml = XmlBuilder.newXml("UTF-8", true)
+        .openTag("xml").withAttribute("id", 1)
+            .openTag("thisishow")
+                .withValue("you can build")
+            .closeTag()
+            .openTag("your").withAttribute("xml", "nicely").toString(true);
+        log.debug(xml);
+    }
+    
+    @Test
+    public void testBeautifulClose() throws Exception {
+        String xml = XmlBuilder.newXml(true).openTag("x").openTag("a")
+        .withAttribute("b", "c").closeTag().closeTag().toString();
+        log.debug(xml);
+    }
     
 }
