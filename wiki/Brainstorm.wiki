@@ -72,7 +72,7 @@ String xml = XmlBuilder.newXml()
         .openTag("thisishow")
             .withValue("you can build")
         .closeTag()
-        .openTag("your").withAttribute("xml", "nicely").toString();
+        .openTag("your").withAttribute("xml", "nicely").toString(true);
 }}}
 XML (formatted):
 {{{
