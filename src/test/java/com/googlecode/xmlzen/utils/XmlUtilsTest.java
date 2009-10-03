@@ -68,6 +68,9 @@ public class XmlUtilsTest {
         
         String forest = XmlUtils.getTagValue(xml, "forest", null, null, false);
         log.debug(forest);
+        
+        assertEquals(null, XmlUtils.getTagValue("<xml>tag</xml>", "nonexistent"));
+        assertEquals(null, XmlUtils.getTagValue("<xml>tag", "xml"));
     }
 
     @Test
@@ -151,6 +154,8 @@ public class XmlUtilsTest {
         		"someshit</data>\n\n";
         String res = XmlUtils.getAttribute(data, "data", "responseTo");
         assertEquals("431", res);
+        assertEquals(123L, XmlUtils.getLongAttribute(data, "data", "id"));
+        assertEquals(123, XmlUtils.getIntAttribute(data, "data", "id"));
     }
 
     @Test
@@ -171,8 +176,25 @@ public class XmlUtilsTest {
         }
         charset = XmlUtils.guessCharset("<?xml encoding='bla'?><dummy/>");
         log.debug(charset);
+        assertEquals("bla", charset);
+        assertEquals(Charset.defaultCharset().name(), 
+                XmlUtils.guessCharset("<xml>no charset</xml>"));
+        assertEquals(Charset.defaultCharset().name(), 
+                XmlUtils.guessCharset("<xml>encoding</xml>"));
+        assertEquals(Charset.defaultCharset().name(), 
+                XmlUtils.guessCharset("<?xml encoding='asdf?><xml>bla</xml>"));
+        
     }
 
+    @Test
+    public void testGetFirstAttribute() throws Exception {
+        assertEquals("123", XmlUtils.getFirstTagAttribute(
+                "<xml attr=\"123\"/>", "attr"));
+        assertEquals("123", XmlUtils.getFirstTagAttribute(
+                "<?xml declr?>\n<xml attr=\"123\"/>", "attr"));
+        assertEquals(null, XmlUtils.getFirstTagAttribute("<xml/>", "attr"));
+    }
+    
     @Test
     public void testGetFirstTagValue() throws Exception {
         assertEquals("value", XmlUtils.getFirstTagValue("<xml>value</xml>"));
@@ -182,6 +204,5 @@ public class XmlUtilsTest {
                 "<?xml version='1.0' encoding='utf-8'?>\n<xml>value</xml>"));
         assertEquals(null, XmlUtils.getFirstTagValue("<xml/>"));
         assertEquals(null, XmlUtils.getFirstTagValue("<xml tag=\"bla\"/>"));
-        
     }
 }
