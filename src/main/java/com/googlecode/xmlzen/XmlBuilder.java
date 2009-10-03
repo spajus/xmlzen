@@ -96,6 +96,26 @@ public class XmlBuilder {
     private boolean tagIsPendingTermination = false;
     
     /**
+     * Should XML be formed beautifully? If not, it will be in a single line.
+     */
+    private boolean beautiful = false;
+    
+    /**
+     * Current identation level for beautification
+     */
+    private int ident = 0;
+    
+    /**
+     * Beautification has happened
+     */
+    private boolean beautified = false;
+    
+    /**
+     * Tab character (two spaces)
+     */
+    private static final String TAB = "  ";
+    
+    /**
      * Private constructor. Use static factory methods instead.
      * 
      * @see #newXml()
@@ -137,6 +157,44 @@ public class XmlBuilder {
     		.withDeclaration("<?xml version=\"1.0\" encoding=\"" 
     				.concat(charset).concat("\"?>"));
     }
+
+    /**
+     * Static factory method for starting new XML construction process.
+     * Allows choosing if XML is formatted or not.
+     * You should consider adding declaration.
+     * 
+     * @param beautiful Should XML be built with formatting?
+     * @return new instance of XmlBuilder
+     */
+    public static XmlBuilder newXml(final boolean beautiful) {
+        final XmlBuilder builder = new XmlBuilder();
+        builder.beautiful = beautiful;
+        return builder;
+    }
+    
+    /**
+     * Static factory method for starting new XML constructio process.
+     * Forms a declaration with encoding provided in <code>charset</code> 
+     * parameter. 
+     * 
+     * <p>List of available encodings can be found here:<br/>
+     * <a href="http://java.sun.com/j2se/1.5.0/docs/guide/intl/encoding.doc.html">
+     * http://java.sun.com/j2se/1.5.0/docs/guide/intl/encoding.doc.html</a> 
+     * 
+     * <p>You should now consider opening a <em>root tag</em>.</p>
+     * 
+     * @param charset name of XML charset encoding. 
+     * @param beautiful Should XML be formatted?
+     * @return new instance of XmlBuilder with declaration
+     * @see #openTag(String)
+     */
+    public static XmlBuilder newXml(final String charset, 
+            final boolean beautiful) {
+        final XmlBuilder builder = new XmlBuilder();
+        builder.beautiful = beautiful;
+        return builder.withDeclaration("<?xml version=\"1.0\" encoding=\"" 
+                    .concat(charset).concat("\"?>"));
+    }
     
     /**
      * Adds a declaration to you XML. 
@@ -177,11 +235,14 @@ public class XmlBuilder {
     public XmlBuilder openTag(final String name) {
         checkBody();
         tagStack.push(name);
+        ident++;
+        beautifyNewLine();
         body.append('<').append(name);
         tagIsPendingTermination = true;
+        beautified = false;
         return this;
     }
-    
+
     /**
      * Adds an attribute to an open tag. Can't call it if there is no open tag 
      * or if the tag value was set. 
@@ -256,6 +317,27 @@ public class XmlBuilder {
     }
     
     /**
+     * Creates beautiful new line if it's needed
+     */
+    private void beautifyNewLine() {
+        if (!beautiful) {
+            return;
+        }
+        if (ident > 0) {
+            if (beautified) {
+                body.append(TAB);
+            } else {
+                body.append('\n');
+                for (int i = 0; i < ident - 1; i++) {
+                    body.append(TAB);
+                }
+            }
+        } else {
+            System.out.println("ident zero!" + ident);
+        }
+    }
+    
+    /**
      * Closes the tag. Calls to this method can be skipped unless you are going
      * to open new tags ahead.
      * 
@@ -273,6 +355,10 @@ public class XmlBuilder {
         } else {
             body.append("</").append(tagStack.pop()).append('>');
         }
+        beautified = false;
+        ident--; 
+        beautifyNewLine();
+        beautified = true;
         return this;
     }
     
@@ -291,17 +377,34 @@ public class XmlBuilder {
     }
     
     /**
-     * Gets the String representation of the XML that is currently built.
+     * Gets the String representation of the XML that is currently being built.
      * 
-     * <p>This method automatically closes all open tags, so you should not
-     * invoke it in the middle of construction to see a partial result.</p>
-     *  
+     * <p>Shows partial result. Can be called anytime.</p>
+     * 
+     * @see #toString(boolean)
      * @see #closeAllTags() 
      * @return XML String which is the result of current building process
      */
     @Override
     public String toString() {
-        closeAllTags();
+        return new String(body.toString());
+    }
+    
+    /**
+     * Gets the String representation of the XML that is currently being built.
+     * 
+     * <p>If autocomplete is set to true, this method calls 
+     * {@link #closeAllTags()}, so you shouldn't do so in the middle of 
+     * construction</p>
+     * 
+     * @see #closeAllTags()
+     * @param autocomplete Should all open tags be closed before printing?
+     * @return XML String which is the result of current building process 
+     */
+    public String toString(boolean autocomplete) {
+        if (autocomplete) {
+            closeAllTags();
+        }
         return new String(body.toString());
     }
     
