@@ -4,7 +4,7 @@ XMLZEN CHANGELOG
 ================
 http://xmlzen.googlecode.com
 
-Changes in version 0.1.1 (?)
+Changes in version 0.1.1 (2009-10-03)
 * Added possibility to build formatted XML.
   http://code.google.com/p/xmlzen/issues/detail?id=1
 * XmlBuilder.toString() no longer closes all tags. toString(true) does.
