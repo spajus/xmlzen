@@ -232,7 +232,7 @@ public class XmlSlicer {
      * <pre>
      * //value of val will be '123'
      * String val = XmlSlicer.cut(&lt;xml&gt;123&lt;/xml&gt;).value();
-     * @return Value of the first tag of current XML
+     * @return
      */
     public String value() {
         return XmlUtils.getFirstTagValue(xml);

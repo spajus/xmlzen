@@ -26,7 +26,7 @@ import java.util.Stack;
  * //will be &lt;root&gt;dummy&lt;/root&gt;
  * String xml = XmlBuilder.newXml()
  *     .openTag("root").withValue("dummy")
- *     .toString(true);
+ *     .toString();
  * </pre>
  * 
  * <p><em>Complex example:</em></p>
