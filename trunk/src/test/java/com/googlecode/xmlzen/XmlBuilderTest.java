@@ -124,8 +124,7 @@ public class XmlBuilderTest {
                         .closeTag()
                     .closeTag()
                 .openTag("checker").withValue("unexpected").closeTag()
-            .closeTag()
-        .closeTag().toString();
+        .toString(true);
         log.debug(xml);
     }
     
@@ -145,6 +144,14 @@ public class XmlBuilderTest {
         String xml = XmlBuilder.newXml(true).openTag("x").openTag("a")
         .withAttribute("b", "c").closeTag().closeTag().toString();
         log.debug(xml);
+    }
+    
+    @Test
+    public void testCDATA() throws Exception {
+        String xml = XmlBuilder.newXml(true).openTag("data")
+                .withCDATA("<xml>cdata</xml>").toString(true);
+        log.debug(xml);
+        assertEquals("<data><![CDATA[<xml>cdata</xml>]]></data>", xml);
     }
     
 }

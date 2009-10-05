@@ -86,6 +86,21 @@ public class XmlBuilder {
     private final Stack<String> tagStack = new Stack<String>();
     
     /**
+     * Is XML formatted by default?
+     * 
+     * @see #setDefaultFormatting(boolean)
+     */
+    private static boolean defaultFormatting = true;
+    
+    /**
+     * Default XML encoding.
+     * 
+     * @see #setDefaultXmlEncoding(String)
+     */
+    private static String defaultXmlEncoding = "UTF-8";
+    
+    
+    /**
      * Flag that denotes that currently open tag is not yet terminated with 
      * "&gt;", so you can add attributes. XmlBuilder will terminate the tag 
      * when it will be necessary.
@@ -98,7 +113,12 @@ public class XmlBuilder {
     /**
      * Should XML be formed beautifully? If not, it will be in a single line.
      */
-    private boolean beautiful = false;
+    private boolean beautiful;
+    
+    /**
+     * Encoding of current XML document
+     */
+    private String encoding;
     
     /**
      * Current identation level for beautification
@@ -106,7 +126,7 @@ public class XmlBuilder {
     private int ident = 0;
     
     /**
-     * Beautification has happened
+     * Beautification (new line) has just happened
      */
     private boolean beautified = false;
     
@@ -116,12 +136,33 @@ public class XmlBuilder {
     private static final String TAB = "  ";
     
     /**
+     * By default, XmlBuilder produces formatted XML. You can switch the default
+     * behavior for new instances with this setter.
+     * 
+     * @param defaultFormatting Is XML being formatted by default?
+     */
+    public static void setDefaultFormatting(final boolean defaultFormatting) {
+        XmlBuilder.defaultFormatting = defaultFormatting;
+    }
+    
+    /**
+     * By default, XmlBuilder produces XML with UTF-8 encoding in the 
+     * declaration. You can change the encoding here.
+     * 
+     * @param defaultXmlEncoding Default XML Encoding charset name
+     */
+    public static void setDefaultXmlEncoding(final String defaultXmlEncoding) {
+        XmlBuilder.defaultXmlEncoding = defaultXmlEncoding;
+    }
+    
+    /**
      * Private constructor. Use static factory methods instead.
      * 
      * @see #newXml()
      * @see #newXml(String)
      */
     private XmlBuilder() {
+        this.beautified = defaultFormatting;
         this.body = new StringBuilder();
     }
     
@@ -129,16 +170,18 @@ public class XmlBuilder {
      * Static factory method for starting new XML construction process.
      * You should consider adding declaration.
      * 
-     * @return new instance of XmlBuilder
      * @see #newXml(String)
      * @see #withDeclaration(String)
+     * @see #setDefaultFormatting(boolean)
+     * @see #setDefaultXmlEncoding(String)
+     * @return new instance of XmlBuilder
      */
     public static XmlBuilder newXml() {
-        return new XmlBuilder();
+        return newXml(defaultXmlEncoding);
     }
     
     /**
-     * Static factory method for starting new XML constructio process.
+     * Static factory method for starting new XML construction process.
      * Forms a declaration with encoding provided in <code>charset</code> 
      * parameter. 
      * 
@@ -151,11 +194,14 @@ public class XmlBuilder {
      * @param charset name of XML charset encoding. 
      * @return new instance of XmlBuilder with declaration
      * @see #openTag(String)
+     * @see #set
      */
     public static XmlBuilder newXml(final String charset) {
-    	return new XmlBuilder()
+    	final XmlBuilder builder = new XmlBuilder()
     		.withDeclaration("<?xml version=\"1.0\" encoding=\"" 
     				.concat(charset).concat("\"?>"));
+    	builder.encoding = charset;
+    	return builder;
     }
 
     /**
@@ -236,7 +282,9 @@ public class XmlBuilder {
         checkBody();
         tagStack.push(name);
         ident++;
-        beautifyNewLine();
+        if (body.length() > 0) {
+            beautifyNewLine();
+        }
         body.append('<').append(name);
         tagIsPendingTermination = true;
         beautified = false;
@@ -300,6 +348,24 @@ public class XmlBuilder {
         }
         checkBody();
         body.append(value);
+        return this;
+    }
+    
+    /**
+     * Sets tag CDATA value. You have to open a tag fist.
+     * 
+     * @see #openTag(String)
+     * @param value CDATA Value of the currently open tag
+     * @return self
+     */    
+    public XmlBuilder withCDATA(final Object value) {
+        if (!tagIsPendingTermination) {
+            throw new XmlZenException("Call openTag before setting CDATA!");
+        }
+        checkBody();
+        body.append("<![CDATA[");
+        body.append(value);
+        body.append("]]>");
         return this;
     }
     
@@ -374,6 +440,15 @@ public class XmlBuilder {
             closeTag();
         }
         return this;
+    }
+    
+    /**
+     * Returns current XML Encoding
+     * 
+     * @return Charset name of current XML Encoding
+     */
+    public String getEncoding() {
+        return encoding;
     }
     
     /**
