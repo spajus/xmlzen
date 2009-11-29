@@ -45,8 +45,9 @@ public class XmlBuilderTest {
                 .withAttributeIf(1 < 0, "shouldnot", "happen")
             .toString(true);
         log.debug(xml);
-        assertEquals("<xml id=\"1\"><thisishow>you can build</thisishow>" +
-        		"<your xml=\"nicely\"/></xml>", xml);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+                     "<xml id=\"1\"><thisishow>you can build</thisishow>" +
+        	     "<your xml=\"nicely\"/></xml>", xml);
     }
     
     @Test
