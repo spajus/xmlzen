@@ -4,6 +4,10 @@ XMLZEN CHANGELOG
 ================
 http://xmlzen.googlecode.com
 
+Changes in version 0.2.0 (?)
+* Fixed a bug which prevented getting attribute values in some cases
+  http://code.google.com/p/xmlzen/issues/detail?id=11 
+
 Changes in version 0.1.1 (2009-10-03)
 * Added possibility to build formatted XML.
   http://code.google.com/p/xmlzen/issues/detail?id=1
