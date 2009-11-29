@@ -156,6 +156,14 @@ public class XmlUtilsTest {
         assertEquals("431", res);
         assertEquals(123L, XmlUtils.getLongAttribute(data, "data", "id"));
         assertEquals(123, XmlUtils.getIntAttribute(data, "data", "id"));
+        
+        String xml = "<html><form \n" +
+        		"method=\"POST\"\n" +
+        		"action=\"google.com\"></form></html>";
+        String val = XmlUtils.getAttribute(xml, "form", "action");
+        assertEquals("google.com", val);
+        String val2 = XmlUtils.getAttribute(xml, "form", "method");
+        assertEquals("POST", val2);
     }
 
     @Test

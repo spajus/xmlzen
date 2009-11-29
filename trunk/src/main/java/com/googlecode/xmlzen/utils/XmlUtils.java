@@ -254,9 +254,8 @@ public abstract class XmlUtils {
      */
     private static String getAttributeInRange(final String inputXml,
             final String attribute, int start, int end) {
-        final String attributes = inputXml.substring(start, end);
-        start = (" ".concat(attributes)).indexOf(
-                " ".concat(attribute).concat("="));
+        final String attributes = inputXml.substring(start, end).trim();
+        start = attributes.indexOf(attribute.concat("="));
         if (start == -1) {
             return null;
         }
