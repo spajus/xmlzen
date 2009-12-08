@@ -75,10 +75,11 @@ public class XmlSlicerTest {
     public void testGetAll() throws Exception {
         String xml = FileUtils.readFile(
                 FileUtils.getClassPathFile("xmls/birds.xml"));
-        List<String> birds = XmlSlicer.cut(xml).getAll("bird").asList();
+        List<String> birds = XmlSlicer.cut(xml).getAllValuesIn("bird").asList();
+        assertEquals(Arrays.asList(new String[] {"crow", "tweety", "pig"}), birds);
         log.debug(xml);
         log.debug(birds);
-        for (XmlSlicer bird : XmlSlicer.cut(xml).getAll("bird")) {
+        for (XmlSlicer bird : XmlSlicer.cut(xml).getAllValuesIn("bird")) {
             log.debug(bird);
         }
     }
