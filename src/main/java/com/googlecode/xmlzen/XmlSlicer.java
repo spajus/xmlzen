@@ -140,7 +140,7 @@ public class XmlSlicer {
      * @param tag Target xml tag name
      * @return XmlSlicerList - a List of XmlSlicer objects
      */
-    public XmlSlicerList getAll(final String tag) {
+    public XmlSlicerList getAllValuesIn(final String tag) {
         return getTagValues(tag, true);
     }
     
