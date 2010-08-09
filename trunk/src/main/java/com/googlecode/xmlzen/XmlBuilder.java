@@ -74,7 +74,7 @@ public class XmlBuilder {
 	 * 
 	 * @see #XmlBuilder()
 	 */
-    private final StringBuilder body;
+    private final XmlBuilderOutput body;
     
     /**
      * Stack of open XML tags that will have to be closed at some point
@@ -159,11 +159,20 @@ public class XmlBuilder {
      * Private constructor. Use static factory methods instead.
      * 
      * @see #newXml()
-     * @see #newXml(String)
      */
     private XmlBuilder() {
+        this(new XmlBuilderStringOutput());
+    }
+
+    /**
+     * Private constructor. Use static factory methods instead.
+     *
+     * @param output XmlBuilderOutput implementation
+     * @see #newXml()
+     */
+    private XmlBuilder(final XmlBuilderOutput output) {
         this.beautified = defaultFormatting;
-        this.body = new StringBuilder();
+        this.body = output;
     }
     
     /**
@@ -194,7 +203,7 @@ public class XmlBuilder {
      * @param charset name of XML charset encoding. 
      * @return new instance of XmlBuilder with declaration
      * @see #openTag(String)
-     * @see #set
+     * @see #setDefaultXmlEncoding(String) 
      */
     public static XmlBuilder newXml(final String charset) {
     	final XmlBuilder builder = new XmlBuilder()
@@ -219,7 +228,7 @@ public class XmlBuilder {
     }
     
     /**
-     * Static factory method for starting new XML constructio process.
+     * Static factory method for starting new XML construction process.
      * Forms a declaration with encoding provided in <code>charset</code> 
      * parameter. 
      * 
@@ -240,6 +249,24 @@ public class XmlBuilder {
         builder.beautiful = beautiful;
         return builder.withDeclaration("<?xml version=\"1.0\" encoding=\"" 
                     .concat(charset).concat("\"?>"));
+    }
+
+
+    /**
+     * Static factory method for starting new XML construction process.
+     * Output is written to OutputStream instead of memory. Convenient with
+     * @param output target OutputStream.
+     * @param charset name of XML charset encoding.
+     * @param beautiful should XML be formatted?
+     * @return new instance of XmlBuilder with declaration
+     * @see #openTag(String)
+     */
+    public static XmlBuilder newXml(final XmlBuilderOutput output,
+            final String charset, final boolean beautiful) {
+        final XmlBuilder builder = new XmlBuilder(output);
+        builder.beautiful = beautiful;
+        builder.encoding = charset;
+        return builder;
     }
     
     /**
