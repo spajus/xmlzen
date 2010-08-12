@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Tomas Varaneckas 
+ * Copyright 2009-2010 Tomas Varaneckas
  * http://www.varaneckas.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
