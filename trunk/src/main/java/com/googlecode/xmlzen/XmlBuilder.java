@@ -90,14 +90,14 @@ public class XmlBuilder {
      * 
      * @see #setDefaultFormatting(boolean)
      */
-    private static boolean defaultFormatting = true;
+    private static boolean defaultFormatting = false;
     
     /**
      * Default XML encoding.
      * 
      * @see #setDefaultXmlEncoding(String)
      */
-    private static String defaultXmlEncoding = "UTF-8";
+    private static String defaultXmlEncoding = null;
     
     
     /**
@@ -206,11 +206,10 @@ public class XmlBuilder {
      * @see #setDefaultXmlEncoding(String) 
      */
     public static XmlBuilder newXml(final String charset) {
-    	final XmlBuilder builder = new XmlBuilder()
-    		.withDeclaration("<?xml version=\"1.0\" encoding=\"" 
-    				.concat(charset).concat("\"?>"));
-    	builder.encoding = charset;
-    	return builder;
+        final XmlBuilder builder = new XmlBuilder();
+        builder.encoding = charset;
+        builder.beautiful = defaultFormatting;
+    	return charset == null ? builder : builder.withDefaultDeclaration();
     }
 
     /**
@@ -247,8 +246,8 @@ public class XmlBuilder {
             final boolean beautiful) {
         final XmlBuilder builder = new XmlBuilder();
         builder.beautiful = beautiful;
-        return builder.withDeclaration("<?xml version=\"1.0\" encoding=\"" 
-                    .concat(charset).concat("\"?>"));
+        builder.encoding = charset;
+        return builder.withDefaultDeclaration();
     }
 
 
@@ -266,7 +265,7 @@ public class XmlBuilder {
         final XmlBuilder builder = new XmlBuilder(output);
         builder.beautiful = beautiful;
         builder.encoding = charset;
-        return builder;
+        return charset == null ? builder : builder.withDefaultDeclaration();
     }
     
     /**
@@ -293,7 +292,19 @@ public class XmlBuilder {
     				"content was added already: " + body);
     	}
     	body.append(declaration);
+        beautified = false;
     	return this;
+    }
+
+    /**
+     * Adds a standard xml declaration like
+     * "&lt;?xml version="1.0" encoding="utf-8"? &gt;"
+     *
+     * @return self
+     */
+    public XmlBuilder withDefaultDeclaration() {
+        return withDeclaration("<?xml version=\"1.0\" encoding=\""
+                .concat(encoding).concat("\"?>"));
     }
     
     /**
@@ -425,8 +436,6 @@ public class XmlBuilder {
                     body.append(TAB);
                 }
             }
-        } else {
-            System.out.println("ident zero!" + ident);
         }
     }
     

@@ -17,6 +17,7 @@
 package com.googlecode.xmlzen;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.apache.commons.logging.Log;
@@ -35,7 +36,7 @@ public class XmlBuilderTest {
 
     @Test
     public void testBuild() throws Exception {
-        String xml = XmlBuilder.newXml()
+        String xml = XmlBuilder.newXml("UTF-8")
             .openTag("xml")
                 .withAttribute("id", 1)
                 .openTag("thisishow")
@@ -153,6 +154,20 @@ public class XmlBuilderTest {
                 .withCDATA("<xml>cdata</xml>").toString(true);
         log.debug(xml);
         assertEquals("<data><![CDATA[<xml>cdata</xml>]]></data>", xml);
+    }
+
+    @Test
+    public void testDefaults() throws Exception {
+        String xml = XmlBuilder.newXml().toString();
+        log.debug(xml);
+        assertEquals("", xml);
+        XmlBuilder.setDefaultFormatting(true);
+        XmlBuilder.setDefaultXmlEncoding("Windows-1257");
+        assertEquals("Windows-1257", XmlBuilder.newXml().getEncoding());
+        xml = XmlBuilder.newXml().openTag("a")
+                .openTag("b").withValue("c").closeAllTags().toString();
+        log.debug(xml);
+        assertTrue(xml.contains("\n"));
     }
     
 }
