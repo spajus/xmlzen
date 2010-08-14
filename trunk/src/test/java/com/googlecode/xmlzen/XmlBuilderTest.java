@@ -36,6 +36,7 @@ public class XmlBuilderTest {
 
     @Test
     public void testBuild() throws Exception {
+        XmlBuilder.setDefaultFormatting(false);
         String xml = XmlBuilder.newXml("UTF-8")
             .openTag("xml")
                 .withAttribute("id", 1)
