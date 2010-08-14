@@ -4,11 +4,17 @@ XMLZEN CHANGELOG
 ================
 http://xmlzen.googlecode.com
 
-Changes in version 0.2.0 (?)
+Changes in version 0.2.0 (2010-08-?)
 * Fixed a bug which prevented getting attribute values in some cases
   http://code.google.com/p/xmlzen/issues/detail?id=11
 * Added a possibility to set some defaults for XmlBuilder
   http://code.google.com/p/xmlzen/issues/detail?id=10
+* Added XmlBuilderOutput interface with String and OutputStream implementations
+  http://code.google.com/p/xmlzen/issues/detail?id=8
+* XmlBuilder builds formatted XML with declaration (if charset is provided)
+  http://code.google.com/p/xmlzen/issues/detail?id=9
+* File support in XmlBuilder (through XmlBuilderStreamOutput) and XmlSlicer
+  http://code.google.com/p/xmlzen/issues/detail?id=7
 
 Changes in version 0.1.1 (2009-10-03)
 * Added possibility to build formatted XML.

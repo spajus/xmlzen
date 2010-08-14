@@ -16,8 +16,10 @@
  */
 package com.googlecode.xmlzen;
 
+import java.io.File;
 import java.util.List;
 
+import com.googlecode.xmlzen.utils.FileUtils;
 import com.googlecode.xmlzen.utils.Value;
 import com.googlecode.xmlzen.utils.XmlUtils;
 
@@ -77,9 +79,33 @@ public class XmlSlicer {
      * You can make a String from file by using FileUtils.readFile()
      * 
      * @param xmlString Source XML String
+     * @return new instance of XmlSlicer
      */
     public static XmlSlicer cut(final String xmlString) {
         return new XmlSlicer(xmlString);
+    }
+
+    /**
+     * Factory method that requires an XML in form of a File.
+     * System default charset is used.
+     *
+     * @see #cut(java.io.File, String)
+     * @param file File that contains XML
+     * @return new instance of XmlSlicer
+     */
+    public static XmlSlicer cut(final File file) {
+        return new XmlSlicer(FileUtils.readFile(file));
+    }
+
+    /**
+     * Factory method that requires an XML in form of a File.
+     *
+     * @param file File that contains XML
+     * @param charset Charset of the file
+     * @return new instance of XmlSlicer
+     */
+    public static XmlSlicer cut(final File file, final String charset) {
+        return new XmlSlicer(FileUtils.readFile(file, charset));
     }
     
     /**

@@ -90,7 +90,7 @@ public class XmlBuilder {
      * 
      * @see #setDefaultFormatting(boolean)
      */
-    private static boolean defaultFormatting = false;
+    private static boolean defaultFormatting = true;
     
     /**
      * Default XML encoding.
