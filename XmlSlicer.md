@@ -1,0 +1,1 @@
+Cuts tag and attribute values from XML.
